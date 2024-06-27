@@ -3,6 +3,9 @@ const fs = require("fs");
 const path = require("path");
 const chokidar = require("chokidar");
 const {anyKey} = require("./input");
+const http = require('http');
+const serveStatic = require('serve-static');
+const finalhandler = require('finalhandler');
 
 
 const serverScope = scope("serve", "Utilities to mount http and/or ipfs nodes");
@@ -102,6 +105,24 @@ async function launchIPFSGateway(
 }
 
 
+async function launchHTTPServer(rootDirectory, port) {
+    fs.mkdirSync(rootDirectory, {recursive: true});
+
+    // Configure the serve-static middleware
+    const serve = serveStatic(rootDirectory);
+
+    const server = http.createServer((req, res) => {
+        serve(req, res, finalhandler(req, res));
+    });
+
+    server.listen(port, () => {
+        console.log(`Server running at http://localhost:${port}/`);
+    });
+
+    return {server};
+}
+
+
 
 serverScope
     .task("ipfs", "Serves an IPFS node")
@@ -114,9 +135,9 @@ serverScope
             swarmPort = parsePort(swarmPort, 4001);
             apiPort = parsePort(apiPort, 5001);
 
-            const localDirectory = path.resolve(hre.config.paths.root, ".local");
-            const contentDirectory = path.join(localDirectory, "content");
-            const repoDirectory = path.join(localDirectory, "repo");
+            const ipfsDirectory = path.resolve(hre.config.paths.root, ".local", "ipfs");
+            const contentDirectory = path.join(ipfsDirectory, "content");
+            const repoDirectory = path.join(ipfsDirectory, "repo");
 
             const {ipfs, watcher, api, gateway} = await launchIPFSGateway(
                 contentDirectory, repoDirectory, gatewayPort, apiPort, swarmPort
@@ -138,6 +159,32 @@ serverScope
             console.log("IPFS server stopped");
         } catch(e) {
             console.error("There was an error trying to mount the IPFS node:");
+            console.error(e);
+        }
+    });
+
+
+serverScope
+    .task("http", "Serves an HTTP node")
+    .addOptionalParam("port", "The port", "8081")
+    .setAction(async ({port}, hre, runSuper) => {
+        try {
+            port = parsePort(port, 8080);
+            const httpDirectory = path.resolve(hre.config.paths.root, ".local", "http");
+            const {server} = await launchHTTPServer(httpDirectory, port);
+            await new Promise(resolve => {
+                setTimeout(() => resolve(), 3000);
+            });
+            console.log(
+                `HTTP server started at port ${port}`
+            );
+
+            await anyKey("Press any key to stop the server...");
+
+            server.close();
+            console.log("HTTP server stopped");
+        } catch(e) {
+            console.error("There was an error trying to mount the HTTP node:");
             console.error(e);
         }
     });
