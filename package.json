@@ -1,6 +1,6 @@
 {
   "name": "hardhat-servers",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A hardhat plugins that provides tasks to launch an IPFS and/or HTTP server(s) in an in-project local directory",
   "main": "src/index.js",
   "scripts": {
