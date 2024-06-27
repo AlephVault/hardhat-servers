@@ -22,9 +22,13 @@
   },
   "homepage": "https://github.com/AlephVault/hardhat-servers#readme",
   "devDependencies": {
-    "ipfs": "^0.66.1"
+    "chokidar": "^3.6.0",
+    "ipfs": "^0.66.1",
+    "enquirer": "^2.4.1",
+    "hardhat": "^2.22.5"
   },
   "peerDependencies": {
+    "enquirer": "^2.4.1",
     "hardhat": "^2.22.5"
   }
 }
