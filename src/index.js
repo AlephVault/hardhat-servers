@@ -2,6 +2,7 @@ const {scope} = require("hardhat/config");
 const fs = require("fs");
 const path = require("path");
 const chokidar = require("chokidar");
+const {anyKey} = require("./input");
 
 
 const serverScope = scope("serve", "Utilities to mount http and/or ipfs nodes");
@@ -21,6 +22,9 @@ async function launchIPFSGateway(
     if (contentDirectory.endsWith('/')) {
         contentDirectory = contentDirectory.substring(0, contentDirectory.length - 1);
     }
+
+    fs.mkdirSync(contentDirectory, {recursive: true});
+    fs.mkdirSync(repoDirectory, {recursive: true});
 
     // Creating the IPFS server (core, api, gateway).
     const IPFS = await import('ipfs');
@@ -48,7 +52,6 @@ async function launchIPFSGateway(
         port: apiPort
     });
     await api.start();
-
 
     // Function to add a file to IPFS.
     const relativeDirStart = contentDirectory.length + 1;
@@ -118,14 +121,21 @@ serverScope
             const {ipfs, watcher, api, gateway} = await launchIPFSGateway(
                 contentDirectory, repoDirectory, gatewayPort, apiPort, swarmPort
             );
+            await new Promise(resolve => {
+                setTimeout(() => resolve(), 3000);
+            });
             console.log(
                 `IPFS server started at gateway port ${gatewayPort}, api port ${apiPort} and swarm port ${swarmPort}`
             );
+
+            await anyKey("Press any key to stop the server...");
 
             await ipfs.stop();
             await watcher.close();
             await api.stop();
             await gateway.stop();
+
+            console.log("IPFS server stopped");
         } catch(e) {
             console.error("There was an error trying to mount the IPFS node:");
             console.error(e);
