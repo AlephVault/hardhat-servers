@@ -2,7 +2,6 @@ const {scope} = require("hardhat/config");
 const fs = require("fs");
 const path = require("path");
 const chokidar = require("chokidar");
-const {anyKey} = require("./input");
 const http = require('http');
 const serveStatic = require('serve-static');
 const finalhandler = require('finalhandler');
@@ -61,7 +60,7 @@ async function launchIPFSGateway(
     async function addToIPFS(filePath) {
         const content = fs.readFileSync(filePath);
         const fileAdded = await ipfs.add({ path: filePath.substring(relativeDirStart), content });
-        console.log(`File CID: ${fileAdded.cid}`);
+        console.log(`File ${filePath} -- CID: ${fileAdded.cid}`);
     }
 
     // Watcher for the filesystem.
@@ -149,7 +148,7 @@ serverScope
                 `IPFS server started at gateway port ${gatewayPort}, api port ${apiPort} and swarm port ${swarmPort}`
             );
 
-            await anyKey("Press any key to stop the server...");
+            await new hre.enquirerPlus.Enquirer.PressAnyKey({message: "Press any key to stop the server..."}).run();
 
             await ipfs.stop();
             await watcher.close();
@@ -179,7 +178,7 @@ serverScope
                 `HTTP server started at port ${port}`
             );
 
-            await anyKey("Press any key to stop the server...");
+            await new hre.enquirerPlus.Enquirer.PressAnyKey({message: "Press any key to stop the server..."}).run();
 
             server.close();
             console.log("HTTP server stopped");

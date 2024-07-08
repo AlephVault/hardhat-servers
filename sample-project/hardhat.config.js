@@ -1,4 +1,5 @@
 require("@nomicfoundation/hardhat-toolbox");
+require("hardhat-enquirer-plus");
 require("..");
 
 /** @type import('hardhat/config').HardhatUserConfig */
