@@ -6,7 +6,7 @@ Install this package in your hardhat project (this was tested in a project depen
 following command:
 
 ```shell
-npm install --save-dev hardhat-servers@^1.0.1
+npm install --save-dev hardhat-servers@^1.0.2
 ```
 
 Then, in your `hardhat.config.js` file, just require it:
