@@ -6,12 +6,14 @@ Install this package in your hardhat project (this was tested in a project depen
 following command:
 
 ```shell
-npm install --save-dev hardhat-servers@^1.0.2
+npm install --save-dev hardhat-common-tools@^1.0.0 hardhat-enquirer-plus@^1.0.8 hardhat-servers@^1.0.2
 ```
 
 Then, in your `hardhat.config.js` file, just require it:
 
 ```javascript
+require("hardhat-common-tools");
+require("hardhat-enquirer-plus");
 require("hardhat-servers");
 ```
 
