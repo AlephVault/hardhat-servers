@@ -6,7 +6,7 @@ Install this package in your hardhat project (this was tested in a project depen
 following command:
 
 ```shell
-npm install --save-dev hardhat-common-tools@^1.3.0 hardhat-enquirer-plus@^1.3.1 hardhat-servers@^1.1.1
+npm install --save-dev hardhat-common-tools@^1.3.0 hardhat-enquirer-plus@^1.4.0 hardhat-servers@^1.2.0
 ```
 
 Then, in your `hardhat.config.js` file, just require it:
