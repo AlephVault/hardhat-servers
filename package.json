@@ -1,10 +1,12 @@
 {
   "name": "hardhat-servers",
-  "version": "1.2.0",
-  "description": "A hardhat plugins that provides tasks to launch an IPFS and/or HTTP server(s) in an in-project local directory",
+  "version": "3.0.0",
+  "description": "A Hardhat plugin that provides tasks to launch IPFS and/or HTTP servers in an in-project local directory",
+  "type": "module",
   "main": "src/index.js",
   "scripts": {
-    "test": "echo \"tests are not implemented\" && exit 1"
+    "build": "node --check src/index.js && node --check src/tasks/http.js && node --check src/tasks/ipfs.js",
+    "test": "npm run build"
   },
   "repository": {
     "type": "git",
@@ -22,13 +24,15 @@
   },
   "homepage": "https://github.com/AlephVault/hardhat-servers#readme",
   "peerDependencies": {
-    "hardhat": "^2.22.5",
-    "hardhat-enquirer-plus": "^1.4.0"
+    "hardhat": "^3.0.0",
+    "hardhat-enquirer-plus": "^3.0.0"
   },
   "dependencies": {
     "chokidar": "^3.6.0",
     "finalhandler": "^1.2.0",
     "ipfs": "^0.66.1",
+    "ipfs-http-gateway": "^0.13.1",
+    "ipfs-http-server": "^0.15.1",
     "serve-static": "^1.15.0"
   }
 }

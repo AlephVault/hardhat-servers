@@ -2,18 +2,19 @@
   "name": "sample-project",
   "version": "1.0.0",
   "description": "",
+  "type": "module",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "hardhat build",
+    "test": "hardhat test"
   },
   "author": "",
   "license": "MIT",
-  "dependencies": {
-    "hardhat": "^2.22.5"
-  },
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "@nomicfoundation/hardhat-toolbox-mocha-ethers": "^3.0.0",
     "finalhandler": "^1.2.0",
+    "hardhat": "^3.0.0",
+    "hardhat-enquirer-plus": "^3.0.0",
     "hardhat-servers": "file:..",
     "serve-static": "^1.15.0"
   }

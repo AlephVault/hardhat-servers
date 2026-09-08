@@ -2,19 +2,23 @@
 A hardhat plugin to mount static servers (HTTP and IPFS) from an in-project's local directory.
 
 ## Installation
-Install this package in your hardhat project (this was tested in a project depending on hardhat@2.22.5) with the
-following command:
+Install this package in your Hardhat 3 project with the following command:
 
 ```shell
-npm install --save-dev hardhat-common-tools@^1.3.0 hardhat-enquirer-plus@^1.4.0 hardhat-servers@^1.2.0
+npm install --save-dev hardhat@^3.0.0 hardhat-enquirer-plus@^3.0.0 hardhat-servers@^3.0.0
 ```
 
-Then, in your `hardhat.config.js` file, just require it:
+Then, in your ESM `hardhat.config.js` or `hardhat.config.ts` file, import the plugin and register it in the
+`plugins` array:
 
 ```javascript
-require("hardhat-common-tools");
-require("hardhat-enquirer-plus");
-require("hardhat-servers");
+import hardhatServers from "hardhat-servers";
+import { defineConfig } from "hardhat/config";
+
+export default defineConfig({
+  plugins: [hardhatServers],
+  solidity: "0.8.24"
+});
 ```
 
 ## Usage
